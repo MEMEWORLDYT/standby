@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Standby Clock (estilo)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="grid">
+      <article class="card clock" aria-label="Reloj">
+        <div class="time">
+          <span id="hhmm">--:--</span>
+          <span class="seconds" id="ss">--</span>
+        </div>
+
+        <div class="date">
+          <span class="pill"><span class="dot"></span><span id="weekday">—</span></span>
+          <span class="pill"><span id="dayMonth">—</span></span>
+          <span class="pill">España · <span id="tz">Europe/Madrid</span></span>
+        </div>
+      </article>
+
+      <article class="card weather" aria-label="Tiempo">
+        <div class="tempRow">
+          <div>
+            <div class="temp">
+              <span id="temp">--</span><span class="unit">°C</span>
+            </div>
+            <div class="meta" id="weatherText">Cargando tiempo…</div>
+          </div>
+
+          <div class="meta metaRight">
+            <div id="place">Ubicación: —</div>
+            <div id="updated">Actualizado: —</div>
+          </div>
+        </div>
+
+        <div class="smallRow">
+          <div>Sensación</div>
+          <div><span id="feels">--</span> °C</div>
+        </div>
+        <div class="smallRow">
+          <div>Viento</div>
+          <div><span id="wind">--</span> km/h</div>
+        </div>
+        <div class="smallRow">
+          <div>Humedad</div>
+          <div><span id="humidity">--</span> %</div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span>Modo “standby” estilo (no oficial)</span>
+      <span id="status">—</span>
+    </footer>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
