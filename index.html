@@ -3,61 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Standby Clock (estilo)</title>
+  <meta name="theme-color" content="#000000" />
+  <title>Clock</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="vignette" aria-hidden="true"></div>
-
-  <main class="wrap">
-    <section class="grid">
-      <article class="card clock" aria-label="Reloj">
-        <div class="time">
-          <span id="hhmm">--:--</span>
-          <span class="seconds" id="ss">--</span>
+  <main class="screen" role="application" aria-label="Reloj y tiempo">
+    <section class="layout">
+      <article class="panel panelClock" aria-label="Reloj">
+        <div class="timeRow">
+          <span id="hhmm" class="hhmm">--:--</span>
+          <span id="ss" class="ss">--</span>
         </div>
 
-        <div class="date">
-          <span class="pill"><span class="dot"></span><span id="weekday">—</span></span>
-          <span class="pill"><span id="dayMonth">—</span></span>
-          <span class="pill">España · <span id="tz">Europe/Madrid</span></span>
+        <div class="chips" aria-label="Fecha">
+          <span class="chip">
+            <span class="liveDot" aria-hidden="true"></span>
+            <span id="weekday">—</span>
+          </span>
+          <span class="chip" id="dayMonth">—</span>
         </div>
       </article>
 
-      <article class="card weather" aria-label="Tiempo">
-        <div class="tempRow">
+      <article class="panel panelWeather" aria-label="Tiempo">
+        <div class="weatherTop">
           <div>
-            <div class="temp">
-              <span id="temp">--</span><span class="unit">°C</span>
+            <div class="tempLine">
+              <span id="temp" class="temp">--</span><span class="deg">°C</span>
             </div>
-            <div class="meta" id="weatherText">Cargando tiempo…</div>
+            <div id="weatherText" class="subtle">Cargando tiempo…</div>
           </div>
 
-          <div class="meta metaRight">
-            <div id="place">Ubicación: —</div>
-            <div id="updated">Actualizado: —</div>
+          <div class="metaRight">
+            <div id="place" class="subtle">Ubicación: —</div>
+            <div id="updated" class="subtle">Actualizado: —</div>
           </div>
         </div>
 
-        <div class="smallRow">
-          <div>Sensación</div>
-          <div><span id="feels">--</span> °C</div>
-        </div>
-        <div class="smallRow">
-          <div>Viento</div>
-          <div><span id="wind">--</span> km/h</div>
-        </div>
-        <div class="smallRow">
-          <div>Humedad</div>
-          <div><span id="humidity">--</span> %</div>
+        <div class="metrics" aria-label="Detalles">
+          <div class="metric">
+            <span class="label">Sensación</span>
+            <span class="value"><span id="feels">--</span> °C</span>
+          </div>
+          <div class="metric">
+            <span class="label">Viento</span>
+            <span class="value"><span id="wind">--</span> km/h</span>
+          </div>
+          <div class="metric">
+            <span class="label">Humedad</span>
+            <span class="value"><span id="humidity">--</span> %</span>
+          </div>
         </div>
       </article>
     </section>
-
-    <footer class="footer">
-      <span>Modo “standby” estilo (no oficial)</span>
-      <span id="status">—</span>
-    </footer>
   </main>
 
   <script src="app.js" defer></script>
