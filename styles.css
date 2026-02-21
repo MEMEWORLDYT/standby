@@ -176,15 +176,6 @@ body{
 .label{ color: rgba(255,255,255,.70); }
 .value{ color: rgba(255,255,255,.90); font-variant-numeric: tabular-nums; }
 
-.status{
-  position:relative;
-  z-index:1;
-  margin-top: 12px;
-  height: 18px;
-  color: var(--muted2);
-  font-size: 12px;
-}
-
 /* Responsive */
 @media (max-width: 860px){
   .layout{ grid-template-columns: 1fr; }
