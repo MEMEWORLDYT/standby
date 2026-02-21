@@ -2,7 +2,7 @@
   const TZ = "Europe/Madrid";
   const $ = (id) => document.getElementById(id);
 
-  // --- Clock / Date ---
+  // ---------- Clock / Date (Spain time) ----------
   function tick() {
     const now = new Date();
 
@@ -27,14 +27,12 @@
 
     $("weekday").textContent = weekday.charAt(0).toUpperCase() + weekday.slice(1);
     $("dayMonth").textContent = `${day} · ${month.charAt(0).toUpperCase() + month.slice(1)}`;
-    $("tz").textContent = TZ;
   }
 
   setInterval(tick, 250);
   tick();
 
-  // --- Weather (Open-Meteo) ---
-  // Fallback: A Coruña (por si no hay geolocalización)
+  // ---------- Weather (Open-Meteo, no key) ----------
   const FALLBACK = { lat: 43.3623, lon: -8.4115, name: "A Coruña" };
 
   function weatherCodeToText(code) {
@@ -64,8 +62,14 @@
     return map.get(code) ?? `Tiempo (código ${code})`;
   }
 
+  function setStatus(msg){
+    const el = $("status");
+    if (!el) return;
+    el.textContent = msg || "";
+  }
+
   async function fetchWeather(lat, lon, placeLabel) {
-    $("status").textContent = "Obteniendo meteorología…";
+    setStatus("Actualizando…");
     $("place").textContent = `Ubicación: ${placeLabel}`;
 
     const url =
@@ -88,7 +92,6 @@
     $("humidity").textContent = Math.round(c.relative_humidity_2m);
     $("weatherText").textContent = weatherCodeToText(c.weather_code);
 
-    // Hora de actualización en España
     const updated = new Intl.DateTimeFormat("es-ES", {
       timeZone: TZ,
       hour: "2-digit",
@@ -97,29 +100,33 @@
     }).format(new Date(c.time));
 
     $("updated").textContent = `Actualizado: ${updated}`;
-    $("status").textContent = "Listo";
+    setStatus("");
   }
 
-  function useGeo() {
-    if (!("geolocation" in navigator)) {
-      $("status").textContent = "Geolocalización no disponible. Usando A Coruña.";
-      return fetchWeather(FALLBACK.lat, FALLBACK.lon, FALLBACK.name);
-    }
+  async function useGeo() {
+    try{
+      if (!("geolocation" in navigator)) {
+        setStatus("Sin geolocalización. Usando A Coruña.");
+        return await fetchWeather(FALLBACK.lat, FALLBACK.lon, FALLBACK.name);
+      }
 
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        await fetchWeather(latitude, longitude, "Tu ubicación");
-      },
-      async () => {
-        $("status").textContent = "Permiso denegado. Usando A Coruña.";
-        await fetchWeather(FALLBACK.lat, FALLBACK.lon, FALLBACK.name);
-      },
-      { enableHighAccuracy: false, timeout: 6000, maximumAge: 10 * 60 * 1000 }
-    );
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const { latitude, longitude } = pos.coords;
+          await fetchWeather(latitude, longitude, "Tu ubicación");
+        },
+        async () => {
+          setStatus("Permiso denegado. Usando A Coruña.");
+          await fetchWeather(FALLBACK.lat, FALLBACK.lon, FALLBACK.name);
+        },
+        { enableHighAccuracy: false, timeout: 6000, maximumAge: 10 * 60 * 1000 }
+      );
+    } catch(e){
+      setStatus("Error meteo. Usando fallback.");
+      await fetchWeather(FALLBACK.lat, FALLBACK.lon, FALLBACK.name);
+    }
   }
 
   useGeo();
-  // refresco cada 15 minutos
   setInterval(useGeo, 15 * 60 * 1000);
 })();
